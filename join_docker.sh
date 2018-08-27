@@ -1,0 +1,1 @@
+docker exec -it $(docker ps -qa) bash

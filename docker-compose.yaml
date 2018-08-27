@@ -1,0 +1,35 @@
+version: '2'
+
+services:
+    test:
+        build:
+            context: .
+            dockerfile: Dockerfile.rawserver
+        image: 'rawserver/rawserver:latest'
+        command: bash -c "python3 /rawserver-src/run.py"
+        networks:
+          rawserver-net:
+                ipv4_address: 172.25.0.112
+        cap_add:
+            - ALL
+        volumes:
+            - ./:/rawserver-src/
+
+    poker:
+        build:
+            context: .
+            dockerfile: Dockerfile.poker
+        image: 'rawserver/poker:latest'
+        networks:
+            rawserver-net:
+                ipv4_address: 172.25.0.113
+        volumes:
+            - "./packets.pcap:/packets.pcap:ro"
+
+networks:
+    rawserver-net:
+        driver: macvlan
+        ipam:
+            config:
+                - subnet: 172.25.0.0/16
+
