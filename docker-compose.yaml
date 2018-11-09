@@ -1,7 +1,7 @@
 version: '2'
 
 services:
-    test:
+    rawserver:
         build:
             context: .
             dockerfile: Dockerfile.rawserver
@@ -20,6 +20,7 @@ services:
             context: .
             dockerfile: Dockerfile.poker
         image: 'rawserver/poker:latest'
+        command: bash -c 'echo "gary" | nc -u 172.25.0.112 8080'
         networks:
             rawserver-net:
                 ipv4_address: 172.25.0.113
